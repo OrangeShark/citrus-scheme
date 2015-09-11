@@ -1,0 +1,13 @@
+apply plugin: 'java'
+apply plugin: 'antlr'
+apply plugin: 'application'
+
+mainClassName = 'interpreter.Main'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    antler "org.antlr:antlr4:4.5"
+}
