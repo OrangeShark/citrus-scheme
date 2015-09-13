@@ -12,8 +12,15 @@ fragment
 INTRALINE_WHITESPACE : [ \t];
 fragment
 LINE_ENDING : '\n' | '\r\n' | '\r';
-LPAREN: '(';
-RPAREN: ')';
+LPAREN : '(';
+RPAREN : ')';
+VECTORPAREN : '#(';
+BYTEPAREN : '#u8(';
+QUOTE : '\'';
+QUASIQUOTE : '`';
+UNQUOTE : ',';
+SPLICING_UNQUOTE : ',@';
+DOT : '.';
 
 IDENTIFIER : INITIAL SUBSEQUENT*
            | '|' SYMBOL_ELEMENT* '|'
