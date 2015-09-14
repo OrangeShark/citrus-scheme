@@ -4,9 +4,38 @@ options {
     language = Java;
 }
 
-myrule: '(' IDENTIFIER ')' ;
+// Grammar rules
 
-// Lexer
+datum : simple_datum
+      | compound_datum
+      ;
+
+simple_datum : BOOLEAN
+             | NUMBER
+             | CHARACTER
+             | STRING
+             | IDENTIFIER
+             ;
+
+compound_datum : list
+               | vector
+               | byte_vector
+               | abbreviation
+               ;
+
+list : '(' datum* ')'
+     | '(' datum+ '.' datum ')'
+     ;
+
+vector : '#(' datum* ')';
+
+byte_vector : '#u8(' NUMBER* ')';
+
+abbreviation : abbrev_prefix datum;
+
+abbrev_prefix : '\'' | '`' | ',' | ',@';
+
+// Lexer rules
 
 fragment
 INTRALINE_WHITESPACE : [ \t];
