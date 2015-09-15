@@ -1,9 +1,5 @@
 grammar Scheme;
 
-options {
-    language = Java;
-}
-
 // Grammar rules
 
 datum : simple_datum
