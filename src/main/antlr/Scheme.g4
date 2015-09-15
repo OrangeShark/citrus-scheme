@@ -1,23 +1,23 @@
 grammar Scheme;
 
-// Grammar rules
+// Parser rules
 
-datum : simple_datum
-      | compound_datum
+datum : simpleDatum
+      | compoundDatum
       ;
 
-simple_datum : BOOLEAN
-             | NUMBER
-             | CHARACTER
-             | STRING
-             | IDENTIFIER
-             ;
+simpleDatum : BOOLEAN
+            | NUMBER
+            | CHARACTER
+            | STRING
+            | IDENTIFIER
+            ;
 
-compound_datum : list
-               | vector
-               | byte_vector
-               | abbreviation
-               ;
+compoundDatum : list
+              | vector
+              | byteVector
+              | abbreviation
+              ;
 
 list : '(' datum* ')'
      | '(' datum+ '.' datum ')'
@@ -25,11 +25,11 @@ list : '(' datum* ')'
 
 vector : '#(' datum* ')';
 
-byte_vector : '#u8(' NUMBER* ')';
+byteVector : '#u8(' NUMBER* ')';
 
-abbreviation : abbrev_prefix datum;
+abbreviation : abbrevPrefix datum;
 
-abbrev_prefix : '\'' | '`' | ',' | ',@';
+abbrevPrefix : '\'' | '`' | ',' | ',@';
 
 // Lexer rules
 
