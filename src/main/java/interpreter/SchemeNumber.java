@@ -2,9 +2,9 @@ package interpreter;
 
 public class SchemeNumber extends SchemeObject
 {
-    private int value;
+    private double value;
 
-    public SchemeNumber(int n)
+    public SchemeNumber(double n)
     {
         this.value = n;
     }

@@ -10,11 +10,11 @@ datum : simpleDatum
       | compoundDatum
       ;
 
-simpleDatum : BOOLEAN
-            | NUMBER
-            | CHARACTER
-            | STRING
-            | IDENTIFIER
+simpleDatum : BOOLEAN       # Boolean
+            | NUMBER        # Number
+            | CHARACTER     # Character
+            | STRING        # String
+            | IDENTIFIER    # Identifier
             ;
 
 compoundDatum : list
