@@ -1,5 +1,9 @@
 grammar Scheme;
 
+@header {
+package scheme.antlr;
+}
+
 // Parser rules
 
 datum : simpleDatum
