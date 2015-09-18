@@ -186,8 +186,8 @@ DECIMAL_10 : UINTEGER_10 SUFFIX?
 fragment
 UINTEGER_10 : DIGIT_10+;
 fragment
-PREFIX_10 : RADIX_10 EXACTNESS?
-          | EXACTNESS? RADIX_10
+PREFIX_10 : RADIX_10? EXACTNESS?
+          | EXACTNESS? RADIX_10?
           ;
 // Hexadecimal
 fragment
@@ -248,3 +248,5 @@ DIGIT_10 : DIGIT;
 
 fragment
 DIGIT_16 : DIGIT_10 | [a-f];
+
+TRASH : INTRALINE_WHITESPACE -> channel(HIDDEN);
