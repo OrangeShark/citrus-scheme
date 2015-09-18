@@ -8,4 +8,14 @@ public class SchemeString extends SchemeObject
     {
         this.value = cs;
     }
+
+    public SchemeString(String str)
+    {
+        this.value = str.toCharArray();
+    }
+
+    public String toString()
+    {
+        return "\"" + String.valueOf(value) + "\"";
+    }
 }

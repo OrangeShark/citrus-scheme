@@ -8,4 +8,9 @@ public class SchemeBoolean extends SchemeObject
     {
         this.value = b;
     }
+
+    public String toString()
+    {
+        return value ? "#t" : "#f";
+    }
 }

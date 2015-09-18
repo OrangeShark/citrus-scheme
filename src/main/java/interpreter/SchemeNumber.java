@@ -8,4 +8,9 @@ public class SchemeNumber extends SchemeObject
     {
         this.value = n;
     }
+
+    public String toString()
+    {
+        return String.valueOf(value);
+    }
 }

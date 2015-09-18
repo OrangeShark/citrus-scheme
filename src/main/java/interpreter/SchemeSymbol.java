@@ -8,4 +8,9 @@ public class SchemeSymbol extends SchemeObject
     {
         this.value = x;
     }
+
+    public String toString()
+    {
+        return value;
+    }
 }
