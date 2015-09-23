@@ -10,11 +10,11 @@ datum : simpleDatum
       | compoundDatum
       ;
 
-simpleDatum : BOOLEAN       # Boolean
-            | NUMBER        # Number
-            | CHARACTER     # Character
-            | STRING        # String
-            | IDENTIFIER    # Identifier
+simpleDatum : bool
+            | number
+            | character
+            | string
+            | identifier
             ;
 
 compoundDatum : list
@@ -27,9 +27,22 @@ list : '(' datum* ')'
      | '(' datum+ '.' datum ')'
      ;
 
+bool : TRUE              # True
+     | FALSE             # False
+     ;
+
+number : NUM_10             # Num10
+       ;
+
+character : CHARACTER;
+
+string : STRING;
+
+identifier : IDENTIFIER;
+
 vector : '#(' datum* ')';
 
-byteVector : '#u8(' NUMBER* ')';
+byteVector : '#u8(' number* ')';
 
 abbreviation : abbrevPrefix datum;
 
@@ -96,11 +109,13 @@ SIGN_SUBSEQUENT : INITIAL | EXPLICIT_SIGN | '@';
 fragment
 SYMBOL_ELEMENT : ~[|\\] | INLINE_HEX_ESCAPE | MNEMONIC_ESCAPE | '\\|';
 
-BOOLEAN : '#t'
-        | '#f'
-        | '#true'
-        | '#false'
-        ;
+TRUE : '#t'
+     | '#true'
+     ;
+
+FALSE : '#f'
+      | '#false'
+      ;
 
 CHARACTER : '#\\' | '#\\' CHARACTER_NAME | '#\\x' HEX_SCALAR_VALUE;
 fragment
@@ -118,10 +133,8 @@ STRING_ELEMENT : ~["\\]
                ;
 
 // Numbers
-NUMBER : NUM_2 | NUM_8 | NUM_10 | NUM_16;
 
 // Binary
-fragment
 NUM_2 : PREFIX_2 COMPLEX_2;
 fragment
 COMPLEX_2 : REAL_2 | REAL_2 '@' REAL_2 | REAL_2 '+' UREAL_2 'i'
@@ -142,7 +155,6 @@ PREFIX_2 : RADIX_2 EXACTNESS?
          | EXACTNESS? RADIX_2
          ;
 // Octal
-fragment
 NUM_8 : PREFIX_8 COMPLEX_8;
 fragment
 COMPLEX_8 : REAL_8 | REAL_8 '@' REAL_8 | REAL_8 '+' UREAL_8 'i'
@@ -163,7 +175,6 @@ PREFIX_8 : RADIX_8 EXACTNESS?
          | EXACTNESS? RADIX_8
          ;
 // Decimal
-fragment
 NUM_10 : PREFIX_10 COMPLEX_10;
 fragment
 COMPLEX_10 : REAL_10 | REAL_10 '@' REAL_10 | REAL_10 '+' UREAL_10 'i'
@@ -190,7 +201,6 @@ PREFIX_10 : RADIX_10? EXACTNESS?
           | EXACTNESS? RADIX_10?
           ;
 // Hexadecimal
-fragment
 NUM_16 : PREFIX_16 COMPLEX_16;
 fragment
 COMPLEX_16 : REAL_16 | REAL_16 '@' REAL_16 | REAL_16 '+' UREAL_16 'i'
@@ -249,4 +259,4 @@ DIGIT_10 : DIGIT;
 fragment
 DIGIT_16 : DIGIT_10 | [a-f];
 
-TRASH : INTRALINE_WHITESPACE -> channel(HIDDEN);
+TRASH : (INTRALINE_WHITESPACE | LINE_ENDING ) -> channel(HIDDEN);

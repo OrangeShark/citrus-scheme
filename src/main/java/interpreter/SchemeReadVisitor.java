@@ -6,19 +6,19 @@ import scheme.antlr.SchemeParser;
 
 public class SchemeReadVisitor extends SchemeBaseVisitor<SchemeObject>
 {
-    public SchemeObject visitBoolean(SchemeParser.BooleanContext ctx)
+    public SchemeObject visitTrue(SchemeParser.TrueContext ctx)
     {
-        final String text = ctx.BOOLEAN().getText();
-        if (text.equals("#f") || text.equals("#false")) {
-            return new SchemeBoolean(false);
-        } else {
-            return new SchemeBoolean(true);
-        }
+        return new SchemeBoolean(true);
     }
 
-    public SchemeObject visitNumber(SchemeParser.NumberContext ctx)
+    public SchemeObject visitFalse(SchemeParser.FalseContext ctx)
     {
-        return new SchemeNumber(Double.valueOf(ctx.NUMBER().getText()));
+        return new SchemeBoolean(false);
+    }
+
+    public SchemeObject visitNum10(SchemeParser.Num10Context ctx)
+    {
+        return new SchemeNumber(Double.valueOf(ctx.NUM_10().getText()));
     }
 
     public SchemeObject visitCharacter(SchemeParser.CharacterContext ctx)
