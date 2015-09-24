@@ -1,16 +1,13 @@
 package interpreter;
 
-public class SchemeNumber extends SchemeObject
-{
+public class SchemeNumber extends SchemeObject {
     private double value;
 
-    public SchemeNumber(double n)
-    {
+    public SchemeNumber(double n) {
         this.value = n;
     }
 
-    public String toString()
-    {
+    public String toString() {
         return String.valueOf(value);
     }
 }
