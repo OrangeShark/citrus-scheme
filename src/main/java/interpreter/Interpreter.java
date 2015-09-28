@@ -27,4 +27,67 @@ public class Interpreter {
         SchemeReadVisitor visitor = new SchemeReadVisitor();
         return visitor.visit(tree);
     }
+
+    public SchemeObject eval(SchemeObject obj, Environment env) {
+        if(obj instanceof SchemeSymbol) {
+            return env.lookUp(obj.toString());
+        } else if (obj instanceof SchemePair) {
+            SchemePair form = (SchemePair) obj;
+            SchemeObject operator = eval(SchemePair.car(form), env);
+            SchemeObject operands = SchemePair.cdr(form);
+            if(operator instanceof Applicable) {
+                Applicable op = (Applicable) operator;
+                SchemePair args  = evalList(operands, env);
+                return op.apply(this, args);
+            } else if(operator instanceof Syntax) {
+                Syntax op = (Syntax) operator;
+                switch(op.value) {
+                    case LAMBDA:
+                        return null;
+                    case IF:
+                        SchemeObject predicate = eval(SchemePair.car(operands), env);
+                        if(SchemeBoolean.isTruthy(predicate)) {
+                            return eval(second(operands), env);
+                        } else {
+                            return eval(third(operands), env);
+                        }
+                    default:
+                        return null;
+                }
+            } else {
+                // unknown
+                return null;
+            }
+        } else {
+            return obj;
+        }
+    }
+
+    public SchemePair evalList(SchemeObject list, Environment env) {
+        SchemePair acc = null;
+        while(list != null) {
+            acc = new SchemePair(eval(SchemePair.car(list), env), acc);
+            list = SchemePair.cdr(list);
+        }
+        return reverseList(acc);
+    }
+
+    private SchemePair reverseList(SchemePair list) {
+        SchemePair prevTail = null;
+        while(list != null) {
+            SchemePair tmp = SchemePair.is(list.tail);
+            list.tail = prevTail;
+            prevTail = list;
+            list = tmp;
+        }
+        return prevTail;
+    }
+
+    private SchemeObject second(SchemeObject list) {
+        return SchemePair.car(SchemePair.cdr(list));
+    }
+
+    private SchemeObject third(SchemeObject list) {
+        return SchemePair.car(SchemePair.cdr(SchemePair.cdr(list)));
+    }
 }
