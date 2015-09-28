@@ -1,7 +1,7 @@
 package interpreter;
 
 public class SchemeBoolean extends SchemeObject {
-    private boolean value;
+    public boolean value;
 
     public SchemeBoolean(boolean b) {
         this.value = b;
@@ -9,5 +9,12 @@ public class SchemeBoolean extends SchemeObject {
 
     public String toString() {
         return value ? "#t" : "#f";
+    }
+
+    public static boolean isTruthy(SchemeObject obj) {
+        if(obj instanceof SchemeBoolean) {
+            return ((SchemeBoolean)obj).value;
+        }
+        return true;
     }
 }

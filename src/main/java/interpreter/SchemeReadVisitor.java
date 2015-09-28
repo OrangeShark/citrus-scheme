@@ -88,7 +88,7 @@ public class SchemeReadVisitor extends SchemeBaseVisitor<SchemeObject>
         SchemePair pair = head;
         for(int i = 1; i < elements.size(); i++) {
             SchemePair tail = new SchemePair(visit(elements.get(i)));
-            pair.setTail(tail);
+            pair.tail = tail;
             pair = tail;
         }
         return head;
