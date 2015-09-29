@@ -29,5 +29,8 @@ public class Base extends Library {
     public void importLib(Environment env) {
         env.define("+", new Plus());
         env.define("if", new Syntax(Syntax.Special.IF));
+        env.define("lambda", new Syntax(Syntax.Special.LAMBDA));
+        env.define("begin", new Syntax(Syntax.Special.BEGIN));
+        env.define("define", new Syntax(Syntax.Special.DEFINE));
     }
 }

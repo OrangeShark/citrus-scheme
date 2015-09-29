@@ -43,7 +43,8 @@ public class Interpreter {
                 Syntax op = (Syntax) operator;
                 switch(op.value) {
                     case LAMBDA:
-                        return null;
+                        return new SchemeClosure(env, SchemePair.car(operands),
+                                                 SchemePair.cdr(operands));
                     case IF:
                         SchemeObject predicate = eval(SchemePair.car(operands), env);
                         if(SchemeBoolean.isTruthy(predicate)) {
@@ -51,6 +52,17 @@ public class Interpreter {
                         } else {
                             return eval(third(operands), env);
                         }
+                    case BEGIN:
+                        SchemeObject result = null;
+                        while(operands != null) {
+                            result = eval(SchemePair.car(operands), env);
+                            operands = SchemePair.cdr(operands);
+                        }
+                        return result;
+                    case DEFINE:
+                        env.define(SchemePair.car(operands).toString(),
+                                   eval(second(operands), env));
+                        return null;
                     default:
                         return null;
                 }

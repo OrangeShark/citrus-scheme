@@ -5,10 +5,15 @@ public class SchemeClosure extends SchemeObject implements Applicable {
     private SchemePair params;
     private SchemeObject body;
 
-    public SchemeClosure(Environment env, SchemePair params, SchemeObject body) {
+    public SchemeClosure(Environment env, SchemeObject params, SchemeObject body) {
         this.env = env;
-        this.params = params;
-        this.body = body;
+        if(params instanceof SchemePair) {
+            this.params = (SchemePair) params;
+        } else {
+            //error
+            this.params = null;
+        }
+        this.body = new SchemePair(new Syntax(Syntax.Special.BEGIN), body);
     }
 
     public SchemeObject apply(Interpreter interpreter, SchemePair args) {

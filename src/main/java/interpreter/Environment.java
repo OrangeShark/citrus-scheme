@@ -13,6 +13,11 @@ public class Environment {
     public Environment(Environment parent, SchemePair params, SchemePair args) {
         this.parent = parent;
         this.bindings = new Hashtable<String, SchemeObject>();
+        while(params != null) {
+            this.define(params.head.toString(), args.head);
+            params = SchemePair.is(params.tail);
+            args = SchemePair.is(args.tail);
+        }
     }
 
     public void define(String name, SchemeObject value) {
