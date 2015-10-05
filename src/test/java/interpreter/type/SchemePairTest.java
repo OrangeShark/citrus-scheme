@@ -9,15 +9,15 @@ import org.junit.Test;
 public class SchemePairTest {
     @Test
     public void carWhenSchemePairShouldHaveSameObject() {
-        SchemeNumber num = new SchemeNumber(1.0);
-        SchemePair pair = new SchemePair(num);
-        assertSame(pair.car(), num);
+        TestObject obj = new TestObject();
+        SchemePair pair = new SchemePair(obj);
+        assertSame(pair.car(), obj);
     }
 
     @Test
     public void cdrWhenSchemePairShouldHaveSameObject() {
-        SchemeNumber num = new SchemeNumber(1.0);
-        SchemePair pair = new SchemePair(new SchemeNumber(0.0), num);
-        assertSame(pair.cdr(), num);
+        TestObject obj = new TestObject();
+        SchemePair pair = new SchemePair(new TestObject(), obj);
+        assertSame(pair.cdr(), obj);
     }
 }
