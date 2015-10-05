@@ -1,4 +1,4 @@
-package interpreter;
+package interpreter.type;
 
 public class SchemeSymbol extends SchemeObject {
     private String value;

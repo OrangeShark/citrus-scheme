@@ -1,4 +1,7 @@
-package interpreter;
+package interpreter.type;
+
+import interpreter.Environment;
+import interpreter.Interpreter;
 
 public class SchemeClosure extends SchemeObject implements Applicable {
     private Environment env;

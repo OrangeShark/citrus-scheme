@@ -1,4 +1,4 @@
-package interpreter;
+package interpreter.type;
 
 public class SchemeCharacter extends SchemeObject {
     private char value;

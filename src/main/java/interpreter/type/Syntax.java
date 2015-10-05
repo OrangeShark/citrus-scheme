@@ -1,4 +1,4 @@
-package interpreter;
+package interpreter.type;
 
 public class Syntax extends SchemeObject {
     public enum Special {

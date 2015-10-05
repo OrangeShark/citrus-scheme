@@ -1,4 +1,4 @@
-package interpreter;
+package interpreter.type;
 
 public class SchemeNumber extends SchemeObject {
     public double value;

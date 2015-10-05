@@ -1,6 +1,7 @@
 package interpreter.scheme;
 
 import interpreter.*;
+import interpreter.type.*;
 
 public class Base extends Library {
     public class Plus extends Primitive {

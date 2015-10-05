@@ -1,5 +1,8 @@
 package interpreter;
 
+import interpreter.type.SchemeObject;
+import interpreter.type.SchemePair;
+
 import java.util.Hashtable;
 
 public class Environment {

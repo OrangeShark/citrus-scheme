@@ -1,6 +1,9 @@
 package interpreter;
 
+import interpreter.type.*;
+
 import java.util.List;
+
 import scheme.antlr.SchemeBaseVisitor;
 import scheme.antlr.SchemeParser;
 

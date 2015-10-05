@@ -1,4 +1,4 @@
-package interpreter;
+package interpreter.type;
 
 public class SchemePair extends SchemeObject {
     public SchemeObject head;

@@ -1,6 +1,7 @@
 package interpreter;
 
 import interpreter.scheme.Base;
+import interpreter.type.*;
 
 public class Main {
 
@@ -15,4 +16,3 @@ public class Main {
         System.out.println(result);
     }
 }
-

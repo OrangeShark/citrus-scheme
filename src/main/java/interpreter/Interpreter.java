@@ -1,5 +1,7 @@
 package interpreter;
 
+import interpreter.type.*;
+
 import java.io.InputStream;
 import java.io.IOException;
 

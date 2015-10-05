@@ -1,4 +1,4 @@
-package interpreter;
+package interpreter.type;
 
 public class SchemeBoolean extends SchemeObject {
     public boolean value;
