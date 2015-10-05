@@ -22,22 +22,12 @@ public class SchemePair extends SchemeObject {
         }
     }
 
-    public static SchemeObject car(SchemeObject obj) {
-        if(obj != null && obj instanceof SchemePair) {
-            return ((SchemePair)obj).head;
-        } else {
-            // error
-            return null;
-        }
+    public SchemeObject car() {
+        return this.head;
     }
 
-    public static SchemeObject cdr(SchemeObject obj) {
-        if(obj != null && obj instanceof SchemePair) {
-            return ((SchemePair)obj).tail;
-        } else {
-            // error
-            return null;
-        }
+    public SchemeObject cdr() {
+        return this.tail;
     }
 
     public String toString() {

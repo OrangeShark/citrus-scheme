@@ -34,9 +34,8 @@ public class Interpreter {
         if(obj instanceof SchemeSymbol) {
             return env.lookUp(obj.toString());
         } else if (obj instanceof SchemePair) {
-            SchemePair form = (SchemePair) obj;
-            SchemeObject operator = eval(SchemePair.car(form), env);
-            SchemeObject operands = SchemePair.cdr(form);
+            SchemeObject operator = eval(obj.car(), env);
+            SchemeObject operands = obj.cdr();
             if(operator instanceof Applicable) {
                 Applicable op = (Applicable) operator;
                 SchemePair args  = evalList(operands, env);
@@ -45,10 +44,10 @@ public class Interpreter {
                 Syntax op = (Syntax) operator;
                 switch(op.value) {
                     case LAMBDA:
-                        return new SchemeClosure(env, SchemePair.car(operands),
-                                                 SchemePair.cdr(operands));
+                        return new SchemeClosure(env, operands.car(),
+                                                 operands.cdr());
                     case IF:
-                        SchemeObject predicate = eval(SchemePair.car(operands), env);
+                        SchemeObject predicate = eval(operands.car(), env);
                         if(SchemeBoolean.isTruthy(predicate)) {
                             return eval(second(operands), env);
                         } else {
@@ -57,12 +56,12 @@ public class Interpreter {
                     case BEGIN:
                         SchemeObject result = null;
                         while(operands != null) {
-                            result = eval(SchemePair.car(operands), env);
-                            operands = SchemePair.cdr(operands);
+                            result = eval(operands.car(), env);
+                            operands = operands.cdr();
                         }
                         return result;
                     case DEFINE:
-                        env.define(SchemePair.car(operands).toString(),
+                        env.define(operands.car().toString(),
                                    eval(second(operands), env));
                         return null;
                     default:
@@ -80,8 +79,8 @@ public class Interpreter {
     public SchemePair evalList(SchemeObject list, Environment env) {
         SchemePair acc = null;
         while(list != null) {
-            acc = new SchemePair(eval(SchemePair.car(list), env), acc);
-            list = SchemePair.cdr(list);
+            acc = new SchemePair(eval(list.car(), env), acc);
+            list = list.cdr();
         }
         return reverseList(acc);
     }
@@ -98,10 +97,10 @@ public class Interpreter {
     }
 
     private SchemeObject second(SchemeObject list) {
-        return SchemePair.car(SchemePair.cdr(list));
+        return list.cdr().car();
     }
 
     private SchemeObject third(SchemeObject list) {
-        return SchemePair.car(SchemePair.cdr(SchemePair.cdr(list)));
+        return list.cdr().cdr().car();
     }
 }
