@@ -29,7 +29,11 @@ public class Environment {
 
     public void set(String name, SchemeObject value) {
         if(!this.bindings.containsKey(name)) {
-            // error, binding not found
+            if(parent != null) {
+                parent.set(name, value);
+            } else {
+                throw new UnboundVariableException(name + " is not bound");
+            }
         } else {
             this.bindings.put(name, value);
         }
@@ -37,10 +41,13 @@ public class Environment {
 
     public SchemeObject lookUp(String name) {
         SchemeObject obj = this.bindings.get(name);
-        if(obj == null && parent != null)
-            obj = parent.lookUp(name);
-
-        // TODO: check if variable still not found
+        if(obj == null) {
+            if(parent != null) {
+                obj = parent.lookUp(name);
+            } else {
+                throw new UnboundVariableException(name + " is not bound");
+            }
+        }
         return obj;
     }
 }
