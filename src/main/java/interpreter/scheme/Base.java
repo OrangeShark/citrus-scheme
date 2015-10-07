@@ -88,12 +88,33 @@ public class Base extends Library {
         }
     }
 
+    public class Equality extends Primitive {
+        public SchemeObject apply(Interpreter interpreter, SchemePair args) {
+            boolean result = true;
+            SchemeNumber num = null;
+            while(args != null) {
+                SchemeObject element = args.head;
+                if(!(element instanceof SchemeNumber)) {
+                    throw new IllegalArgumentException("argument is not a Number");
+                }
+                if(num == null) {
+                    num = ((SchemeNumber)element);
+                } else {
+                    result = result && num.value == ((SchemeNumber)element).value;
+                }
+                args = SchemePair.of(args.tail);
+            }
+            return new SchemeBoolean(result);
+        }
+    }
+
 
     public void importLib(Environment env) {
         env.define("+", new Plus());
         env.define("-", new Minus());
         env.define("*", new Times());
         env.define("/", new Divide());
+        env.define("=", new Equality());
 
         // Special forms
         env.define("if", new Syntax(Syntax.Special.IF));
