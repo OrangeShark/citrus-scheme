@@ -3,6 +3,8 @@ package interpreter.scheme;
 import interpreter.*;
 import interpreter.type.*;
 
+import java.lang.IllegalArgumentException;
+
 public class Base extends Library {
     public class Plus extends Primitive {
         public SchemeObject apply(Interpreter interpreter, SchemePair args) {
@@ -12,9 +14,9 @@ public class Base extends Library {
                 if(element instanceof SchemeNumber) {
                     total += ((SchemeNumber)element).value;
                 } else {
-                    //error
+                    throw new IllegalArgumentException("argument is not a Number");
                 }
-                args = SchemePair.is(args.tail);
+                args = SchemePair.of(args.tail);
             }
             return new SchemeNumber(total);
         }
@@ -29,9 +31,13 @@ public class Base extends Library {
 
     public void importLib(Environment env) {
         env.define("+", new Plus());
+
+        // Special forms
         env.define("if", new Syntax(Syntax.Special.IF));
         env.define("lambda", new Syntax(Syntax.Special.LAMBDA));
         env.define("begin", new Syntax(Syntax.Special.BEGIN));
         env.define("define", new Syntax(Syntax.Special.DEFINE));
+        env.define("quote", new Syntax(Syntax.Special.QUOTE));
+        env.define("set!", new Syntax(Syntax.Special.SET));
     }
 }

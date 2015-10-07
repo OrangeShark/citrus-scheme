@@ -18,8 +18,8 @@ public class Environment {
         this.bindings = new Hashtable<String, SchemeObject>();
         while(params != null) {
             this.define(params.head.toString(), args.head);
-            params = SchemePair.is(params.tail);
-            args = SchemePair.is(args.tail);
+            params = SchemePair.of(params.tail);
+            args = SchemePair.of(args.tail);
         }
     }
 

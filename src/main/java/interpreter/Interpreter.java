@@ -1,6 +1,7 @@
 package interpreter;
 
 import interpreter.type.*;
+import static interpreter.util.List.*;
 
 import java.io.InputStream;
 import java.io.IOException;
@@ -14,9 +15,11 @@ import scheme.antlr.SchemeParser;
 public class Interpreter {
 
     private Environment globalEnv;
+    private Unspecified unspecified;
 
     public Interpreter() {
         globalEnv = new Environment();
+        unspecified = new Unspecified();
     }
 
     public SchemeObject read(InputStream is) throws IOException {
@@ -47,11 +50,17 @@ public class Interpreter {
                         return new SchemeClosure(env, operands.car(),
                                                  operands.cdr());
                     case IF:
+                        int count = length(operands);
+                        if(count < 2 && count > 3) {
+                            throw new SyntaxErrorException("Does not match if syntax");
+                        }
                         SchemeObject predicate = eval(operands.car(), env);
                         if(SchemeBoolean.isTruthy(predicate)) {
                             return eval(second(operands), env);
-                        } else {
+                        } else if(count == 3){
                             return eval(third(operands), env);
+                        } else {
+                            return unspecified;
                         }
                     case BEGIN:
                         SchemeObject result = null;
@@ -63,9 +72,18 @@ public class Interpreter {
                     case DEFINE:
                         env.define(operands.car().toString(),
                                    eval(second(operands), env));
-                        return null;
+                        return unspecified;
+                    case QUOTE:
+                        if(length(operands) != 1)
+                            throw new SyntaxErrorException("Does not match quote syntax");
+                        return operands.car();
+                    case SET:
+                        if(length(operands) != 2)
+                            throw new SyntaxErrorException("Does not match set! syntax");
+                        env.set(operands.car().toString(), eval(second(operands)));
+                        return unspecified;
                     default:
-                        return null;
+                        return unspecified;
                 }
             } else {
                 // unknown
@@ -82,25 +100,6 @@ public class Interpreter {
             acc = new SchemePair(eval(list.car(), env), acc);
             list = list.cdr();
         }
-        return reverseList(acc);
-    }
-
-    private SchemePair reverseList(SchemePair list) {
-        SchemePair prevTail = null;
-        while(list != null) {
-            SchemePair tmp = SchemePair.is(list.tail);
-            list.tail = prevTail;
-            prevTail = list;
-            list = tmp;
-        }
-        return prevTail;
-    }
-
-    private SchemeObject second(SchemeObject list) {
-        return list.cdr().car();
-    }
-
-    private SchemeObject third(SchemeObject list) {
-        return list.cdr().cdr().car();
+        return reverse(acc);
     }
 }

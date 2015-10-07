@@ -13,12 +13,12 @@ public class SchemePair extends SchemeObject {
         this(head, null);
     }
 
-    public static SchemePair is(SchemeObject obj) {
-        if(obj instanceof SchemePair) {
+    public static SchemePair of(SchemeObject obj) {
+        if(obj instanceof SchemePair || obj == null) {
             return (SchemePair) obj;
         } else {
             // error
-            return null;
+            throw new RuntimeException("Not a pair");
         }
     }
 
