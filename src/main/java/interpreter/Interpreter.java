@@ -80,7 +80,7 @@ public class Interpreter {
                     case SET:
                         if(length(operands) != 2)
                             throw new SyntaxErrorException("Does not match set! syntax");
-                        env.set(operands.car().toString(), eval(second(operands)));
+                        env.set(operands.car().toString(), eval(second(operands), env));
                         return unspecified;
                     default:
                         return unspecified;
