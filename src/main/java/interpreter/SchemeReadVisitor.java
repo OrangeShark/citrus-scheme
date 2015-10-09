@@ -85,6 +85,13 @@ public class SchemeReadVisitor extends SchemeBaseVisitor<SchemeObject>
         return null;
     }
 
+    public SchemeObject visitQuote(SchemeParser.QuoteContext ctx)
+    {
+        final SchemeObject obj = visit(ctx.datum());
+        return new SchemePair(new Syntax(Syntax.Special.QUOTE), 
+                              new SchemePair(obj));
+    }
+
     private SchemePair buildList(List<SchemeParser.DatumContext> elements)
     {
         final SchemePair head = new SchemePair(visit(elements.get(0)));

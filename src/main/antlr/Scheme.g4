@@ -20,6 +20,7 @@ simpleDatum : bool
 compoundDatum : list
               | vector
               | byteVector
+              | quote
               | abbreviation
               ;
 
@@ -44,9 +45,11 @@ vector : '#(' datum* ')';
 
 byteVector : '#u8(' number* ')';
 
+quote : '\'' datum;
+
 abbreviation : abbrevPrefix datum;
 
-abbrevPrefix : '\'' | '`' | ',' | ',@';
+abbrevPrefix : '`' | ',' | ',@';
 
 // Lexer rules
 
