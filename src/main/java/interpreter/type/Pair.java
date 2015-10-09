@@ -1,6 +1,6 @@
 package interpreter.type;
 
-public class Pair extends SchemeObject {
+public class Pair extends SchemeList {
     public SchemeObject head;
     public SchemeObject tail;
 
@@ -10,7 +10,7 @@ public class Pair extends SchemeObject {
     }
 
     public Pair(SchemeObject head) {
-        this(head, null);
+        this(head, new Null());
     }
 
     public static Pair of(SchemeObject obj) {
@@ -32,13 +32,14 @@ public class Pair extends SchemeObject {
 
     public String toString() {
         String str = "(" + this.head.toString();
-        if(this.tail == null || this.tail instanceof Pair) {
-            Pair element = (Pair)this.tail;
-            while(element != null) {
-                str += " " + element.head.toString();
-                element = (Pair)element.tail;
+        if(this.tail instanceof SchemeList) {
+            SchemeList element = (SchemeList)this.tail;
+            while(element instanceof Pair) {
+                Pair p = (Pair)element;
+                str += " " + p.head.toString();
+                element = (SchemeList)p.tail;
             }
-        } else {
+        } else if(!(this.tail instanceof Null)){
             str += " . " + this.tail.toString();
         }
         return str + ")";

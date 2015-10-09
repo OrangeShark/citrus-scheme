@@ -70,7 +70,7 @@ public class SchemeReadVisitor extends SchemeBaseVisitor<SchemeObject>
     {
         final List<SchemeParser.DatumContext> elements = ctx.datum();
 
-        return buildList(elements);
+        return elements.size() == 0 ? new Null() : buildList(elements);
     }
 
     public SchemeObject visitVector(SchemeParser.VectorContext ctx)

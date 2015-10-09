@@ -41,13 +41,14 @@ public class Interpreter {
             SchemeObject operands = obj.cdr();
             if(operator instanceof Applicable) {
                 Applicable op = (Applicable) operator;
-                Pair args  = evalList(operands, env);
+                SchemeList args  = evalList(operands, env);
                 return op.apply(this, args);
             } else if(operator instanceof Syntax) {
                 Syntax op = (Syntax) operator;
                 switch(op.value) {
                     case LAMBDA:
-                        return new Closure(env, operands.car(),
+                        return new Closure(env,
+                                           SchemeList.of(operands.car()),
                                            operands.cdr());
                     case IF:
                         int count = length(operands);
@@ -63,8 +64,8 @@ public class Interpreter {
                             return unspecified;
                         }
                     case BEGIN:
-                        SchemeObject result = null;
-                        while(operands != null) {
+                        SchemeObject result = unspecified;
+                        while(!operands.isNull()) {
                             result = eval(operands.car(), env);
                             operands = operands.cdr();
                         }
@@ -94,9 +95,9 @@ public class Interpreter {
         }
     }
 
-    public Pair evalList(SchemeObject list, Environment env) {
-        Pair acc = null;
-        while(list != null) {
+    public SchemeList evalList(SchemeObject list, Environment env) {
+        SchemeList acc = new Null();
+        while(!list.isNull()) {
             acc = new Pair(eval(list.car(), env), acc);
             list = list.cdr();
         }

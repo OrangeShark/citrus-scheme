@@ -1,7 +1,7 @@
 package interpreter;
 
 import interpreter.type.SchemeObject;
-import interpreter.type.Pair;
+import interpreter.type.SchemeList;
 
 import java.util.Hashtable;
 
@@ -13,13 +13,13 @@ public class Environment {
         this(null, null, null);
     }
 
-    public Environment(Environment parent, Pair params, Pair args) {
+    public Environment(Environment parent, SchemeList params, SchemeList args) {
         this.parent = parent;
         this.bindings = new Hashtable<String, SchemeObject>();
         while(params != null) {
-            this.define(params.head.toString(), args.head);
-            params = Pair.of(params.tail);
-            args = Pair.of(args.tail);
+            this.define(params.car().toString(), args.car());
+            params = SchemeList.of(params.cdr());
+            args = SchemeList.of(args.cdr());
         }
     }
 

@@ -11,4 +11,8 @@ public abstract class SchemeObject {
     public SchemeObject cdr() {
         throw new IllegalArgumentException(this.toString());
     }
+
+    public boolean isNull() {
+        return false;
+    }
 }
