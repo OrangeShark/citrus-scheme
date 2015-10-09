@@ -1,9 +1,9 @@
 package interpreter.type;
 
-public class SchemeBoolean extends SchemeObject {
+public class Bool extends SchemeObject {
     public boolean value;
 
-    public SchemeBoolean(boolean b) {
+    public Bool(boolean b) {
         this.value = b;
     }
 
@@ -12,8 +12,8 @@ public class SchemeBoolean extends SchemeObject {
     }
 
     public static boolean isTruthy(SchemeObject obj) {
-        if(obj instanceof SchemeBoolean) {
-            return ((SchemeBoolean)obj).value;
+        if(obj instanceof Bool) {
+            return ((Bool)obj).value;
         }
         return true;
     }

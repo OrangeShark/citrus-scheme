@@ -1,9 +1,9 @@
 package interpreter.type;
 
-public class SchemeSymbol extends SchemeObject {
+public class Symbol extends SchemeObject {
     private String value;
 
-    public SchemeSymbol(String x) {
+    public Symbol(String x) {
         this.value = x;
     }
 

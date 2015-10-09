@@ -11,17 +11,17 @@ public class SchemeReadVisitor extends SchemeBaseVisitor<SchemeObject>
 {
     public SchemeObject visitTrue(SchemeParser.TrueContext ctx)
     {
-        return new SchemeBoolean(true);
+        return new Bool(true);
     }
 
     public SchemeObject visitFalse(SchemeParser.FalseContext ctx)
     {
-        return new SchemeBoolean(false);
+        return new Bool(false);
     }
 
     public SchemeObject visitNum10(SchemeParser.Num10Context ctx)
     {
-        return new SchemeNumber(Double.valueOf(ctx.NUM_10().getText()));
+        return new Num(Double.valueOf(ctx.NUM_10().getText()));
     }
 
     public SchemeObject visitCharacter(SchemeParser.CharacterContext ctx)
@@ -37,33 +37,33 @@ public class SchemeReadVisitor extends SchemeBaseVisitor<SchemeObject>
         case "escape":
             return null;
         case "newline":
-            return new SchemeCharacter('\n');
+            return new Char('\n');
         case "null":
-            return new SchemeCharacter('\0');
+            return new Char('\0');
         case "return":
-            return new SchemeCharacter('\r');
+            return new Char('\r');
         case "space":
-            return new SchemeCharacter(' ');
+            return new Char(' ');
         case "tab":
-            return new SchemeCharacter('\t');
+            return new Char('\t');
         default:
             if(text.charAt(0) == 'x')
                 // hex scalar value
                 return null;
             else
-                return new SchemeCharacter(text.charAt(0));
+                return new Char(text.charAt(0));
         }
     }
 
     public SchemeObject visitString(SchemeParser.StringContext ctx)
     {
         final String str = ctx.STRING().getText();
-        return new SchemeString(str.substring(1, str.length() - 1));
+        return new Str(str.substring(1, str.length() - 1));
     }
 
     public SchemeObject visitIdentifier(SchemeParser.IdentifierContext ctx)
     {
-        return new SchemeSymbol(ctx.IDENTIFIER().getText());
+        return new Symbol(ctx.IDENTIFIER().getText());
     }
 
     public SchemeObject visitList(SchemeParser.ListContext ctx)
@@ -76,8 +76,8 @@ public class SchemeReadVisitor extends SchemeBaseVisitor<SchemeObject>
     public SchemeObject visitVector(SchemeParser.VectorContext ctx)
     {
         final List<SchemeParser.DatumContext> elements = ctx.datum();
-        return new SchemePair(new SchemeSymbol("vector"),
-                              buildList(elements));
+        return new Pair(new Symbol("vector"),
+                        buildList(elements));
     }
 
     public SchemeObject visitByteVector(SchemeParser.ByteVectorContext ctx)
@@ -88,16 +88,16 @@ public class SchemeReadVisitor extends SchemeBaseVisitor<SchemeObject>
     public SchemeObject visitQuote(SchemeParser.QuoteContext ctx)
     {
         final SchemeObject obj = visit(ctx.datum());
-        return new SchemePair(new Syntax(Syntax.Special.QUOTE), 
-                              new SchemePair(obj));
+        return new Pair(new Syntax(Syntax.Special.QUOTE), 
+                        new Pair(obj));
     }
 
-    private SchemePair buildList(List<SchemeParser.DatumContext> elements)
+    private Pair buildList(List<SchemeParser.DatumContext> elements)
     {
-        final SchemePair head = new SchemePair(visit(elements.get(0)));
-        SchemePair pair = head;
+        final Pair head = new Pair(visit(elements.get(0)));
+        Pair pair = head;
         for(int i = 1; i < elements.size(); i++) {
-            SchemePair tail = new SchemePair(visit(elements.get(i)));
+            Pair tail = new Pair(visit(elements.get(i)));
             pair.tail = tail;
             pair = tail;
         }

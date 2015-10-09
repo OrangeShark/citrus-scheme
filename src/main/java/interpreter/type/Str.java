@@ -1,13 +1,13 @@
 package interpreter.type;
 
-public class SchemeString extends SchemeObject {
+public class Str extends SchemeObject {
     private char[] value;
 
-    public SchemeString(char[] cs) {
+    public Str(char[] cs) {
         this.value = cs;
     }
 
-    public SchemeString(String str) {
+    public Str(String str) {
         this.value = str.toCharArray();
     }
 

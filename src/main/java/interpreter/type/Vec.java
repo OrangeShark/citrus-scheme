@@ -1,9 +1,9 @@
 package interpreter.type;
 
-public class SchemeVector extends SchemeObject {
+public class Vec extends SchemeObject {
     private SchemeObject[] value;
 
-    public SchemeVector(SchemeObject[] xs) {
+    public Vec(SchemeObject[] xs) {
         this.value = xs;
     }
 }

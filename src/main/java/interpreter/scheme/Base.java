@@ -7,104 +7,104 @@ import java.lang.IllegalArgumentException;
 
 public class Base extends Library {
     public class Plus extends Primitive {
-        public SchemeObject apply(Interpreter interpreter, SchemePair args) {
+        public SchemeObject apply(Interpreter interpreter, Pair args) {
             double total = 0.0;
             while(args != null) {
                 SchemeObject element = args.head;
-                if(element instanceof SchemeNumber) {
-                    total += ((SchemeNumber)element).value;
+                if(element instanceof Num) {
+                    total += ((Num)element).value;
                 } else {
                     throw new IllegalArgumentException("argument is not a Number");
                 }
-                args = SchemePair.of(args.tail);
+                args = Pair.of(args.tail);
             }
-            return new SchemeNumber(total);
+            return new Num(total);
         }
     }
 
     public class Minus extends Primitive {
-        public SchemeObject apply(Interpreter interpreter, SchemePair args) {
+        public SchemeObject apply(Interpreter interpreter, Pair args) {
             if(args == null) {
                 throw new IllegalArgumentException("not enough arguments");
             }
-            if(!(args.head instanceof SchemeNumber)) {
+            if(!(args.head instanceof Num)) {
                 throw new IllegalArgumentException("argument is not a Number");
             }
-            double total = ((SchemeNumber)args.head).value;
+            double total = ((Num)args.head).value;
             if(args.tail == null) {
-                return new SchemeNumber(-total);
+                return new Num(-total);
             }
-            args = SchemePair.of(args.tail);
+            args = Pair.of(args.tail);
             while(args != null) {
                 SchemeObject element = args.head;
-                if(!(element instanceof SchemeNumber)) {
+                if(!(element instanceof Num)) {
                     throw new IllegalArgumentException("argument is not a Number");
                 }
-                total -= ((SchemeNumber)element).value;
-                args = SchemePair.of(args.tail);
+                total -= ((Num)element).value;
+                args = Pair.of(args.tail);
             }
-            return new SchemeNumber(total);
+            return new Num(total);
         }
     }
 
     public class Times extends Primitive {
-        public SchemeObject apply(Interpreter interpreter, SchemePair args) {
+        public SchemeObject apply(Interpreter interpreter, Pair args) {
             double total = 1.0;
             while(args != null) {
                 SchemeObject element = args.head;
-                if(element instanceof SchemeNumber) {
-                    total *= ((SchemeNumber)element).value;
+                if(element instanceof Num) {
+                    total *= ((Num)element).value;
                 } else {
                     throw new IllegalArgumentException("argument is not a Number");
                 }
-                args = SchemePair.of(args.tail);
+                args = Pair.of(args.tail);
             }
-            return new SchemeNumber(total);
+            return new Num(total);
         }
     }
 
     public class Divide extends Primitive {
-        public SchemeObject apply(Interpreter interpreter, SchemePair args) {
+        public SchemeObject apply(Interpreter interpreter, Pair args) {
             if(args == null) {
                 throw new IllegalArgumentException("not enough arguments");
             }
-            if(!(args.head instanceof SchemeNumber)) {
+            if(!(args.head instanceof Num)) {
                 throw new IllegalArgumentException("argument is not a Number");
             }
-            double total = ((SchemeNumber)args.head).value;
+            double total = ((Num)args.head).value;
             if(args.tail == null) {
-                return new SchemeNumber(1 / total);
+                return new Num(1 / total);
             }
-            args = SchemePair.of(args.tail);
+            args = Pair.of(args.tail);
             while(args != null) {
                 SchemeObject element = args.head;
-                if(!(element instanceof SchemeNumber)) {
+                if(!(element instanceof Num)) {
                     throw new IllegalArgumentException("argument is not a Number");
                 }
-                total /= ((SchemeNumber)element).value;
-                args = SchemePair.of(args.tail);
+                total /= ((Num)element).value;
+                args = Pair.of(args.tail);
             }
-            return new SchemeNumber(total);
+            return new Num(total);
         }
     }
 
     public class Equality extends Primitive {
-        public SchemeObject apply(Interpreter interpreter, SchemePair args) {
+        public SchemeObject apply(Interpreter interpreter, Pair args) {
             boolean result = true;
-            SchemeNumber num = null;
+            Num num = null;
             while(args != null) {
                 SchemeObject element = args.head;
-                if(!(element instanceof SchemeNumber)) {
+                if(!(element instanceof Num)) {
                     throw new IllegalArgumentException("argument is not a Number");
                 }
                 if(num == null) {
-                    num = ((SchemeNumber)element);
+                    num = ((Num)element);
                 } else {
-                    result = result && num.value == ((SchemeNumber)element).value;
+                    result = result && num.value == ((Num)element).value;
                 }
-                args = SchemePair.of(args.tail);
+                args = Pair.of(args.tail);
             }
-            return new SchemeBoolean(result);
+            return new Bool(result);
         }
     }
 

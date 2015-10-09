@@ -1,21 +1,21 @@
 package interpreter.type;
 
-public class SchemePair extends SchemeObject {
+public class Pair extends SchemeObject {
     public SchemeObject head;
     public SchemeObject tail;
 
-    public SchemePair(SchemeObject head, SchemeObject tail) {
+    public Pair(SchemeObject head, SchemeObject tail) {
         this.head = head;
         this.tail = tail;
     }
 
-    public SchemePair(SchemeObject head) {
+    public Pair(SchemeObject head) {
         this(head, null);
     }
 
-    public static SchemePair of(SchemeObject obj) {
-        if(obj instanceof SchemePair || obj == null) {
-            return (SchemePair) obj;
+    public static Pair of(SchemeObject obj) {
+        if(obj instanceof Pair || obj == null) {
+            return (Pair) obj;
         } else {
             // error
             throw new RuntimeException("Not a pair");
@@ -32,11 +32,11 @@ public class SchemePair extends SchemeObject {
 
     public String toString() {
         String str = "(" + this.head.toString();
-        if(this.tail == null || this.tail instanceof SchemePair) {
-            SchemePair element = (SchemePair)this.tail;
+        if(this.tail == null || this.tail instanceof Pair) {
+            Pair element = (Pair)this.tail;
             while(element != null) {
                 str += " " + element.head.toString();
-                element = (SchemePair)element.tail;
+                element = (Pair)element.tail;
             }
         } else {
             str += " . " + this.tail.toString();

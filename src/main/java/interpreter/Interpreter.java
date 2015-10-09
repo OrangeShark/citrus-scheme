@@ -34,28 +34,28 @@ public class Interpreter {
     }
 
     public SchemeObject eval(SchemeObject obj, Environment env) {
-        if(obj instanceof SchemeSymbol) {
+        if(obj instanceof Symbol) {
             return env.lookUp(obj.toString());
-        } else if (obj instanceof SchemePair) {
+        } else if (obj instanceof Pair) {
             SchemeObject operator = eval(obj.car(), env);
             SchemeObject operands = obj.cdr();
             if(operator instanceof Applicable) {
                 Applicable op = (Applicable) operator;
-                SchemePair args  = evalList(operands, env);
+                Pair args  = evalList(operands, env);
                 return op.apply(this, args);
             } else if(operator instanceof Syntax) {
                 Syntax op = (Syntax) operator;
                 switch(op.value) {
                     case LAMBDA:
-                        return new SchemeClosure(env, operands.car(),
-                                                 operands.cdr());
+                        return new Closure(env, operands.car(),
+                                           operands.cdr());
                     case IF:
                         int count = length(operands);
                         if(count < 2 && count > 3) {
                             throw new SyntaxErrorException("Does not match if syntax");
                         }
                         SchemeObject predicate = eval(operands.car(), env);
-                        if(SchemeBoolean.isTruthy(predicate)) {
+                        if(Bool.isTruthy(predicate)) {
                             return eval(second(operands), env);
                         } else if(count == 3){
                             return eval(third(operands), env);
@@ -94,10 +94,10 @@ public class Interpreter {
         }
     }
 
-    public SchemePair evalList(SchemeObject list, Environment env) {
-        SchemePair acc = null;
+    public Pair evalList(SchemeObject list, Environment env) {
+        Pair acc = null;
         while(list != null) {
-            acc = new SchemePair(eval(list.car(), env), acc);
+            acc = new Pair(eval(list.car(), env), acc);
             list = list.cdr();
         }
         return reverse(acc);

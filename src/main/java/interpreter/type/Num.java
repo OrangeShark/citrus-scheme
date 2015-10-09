@@ -1,9 +1,9 @@
 package interpreter.type;
 
-public class SchemeNumber extends SchemeObject {
+public class Num extends SchemeObject {
     public double value;
 
-    public SchemeNumber(double n) {
+    public Num(double n) {
         this.value = n;
     }
 
