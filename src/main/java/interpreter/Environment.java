@@ -2,6 +2,7 @@ package interpreter;
 
 import interpreter.type.SchemeObject;
 import interpreter.type.SchemeList;
+import interpreter.type.Symbol;
 
 import java.util.Hashtable;
 
@@ -17,30 +18,31 @@ public class Environment {
         this.parent = parent;
         this.bindings = new Hashtable<String, SchemeObject>();
         while(params != null) {
-            this.define(params.car().toString(), args.car());
+            Symbol symbol = Symbol.of(params.car());
+            this.define(symbol, args.car());
             params = SchemeList.of(params.cdr());
             args = SchemeList.of(args.cdr());
         }
     }
 
-    public void define(String name, SchemeObject value) {
-        this.bindings.put(name, value);
+    public void define(Symbol name, SchemeObject value) {
+        this.bindings.put(name.value, value);
     }
 
-    public void set(String name, SchemeObject value) {
-        if(!this.bindings.containsKey(name)) {
+    public void set(Symbol name, SchemeObject value) {
+        if(!this.bindings.containsKey(name.value)) {
             if(parent != null) {
                 parent.set(name, value);
             } else {
                 throw new UnboundVariableException(name + " is not bound");
             }
         } else {
-            this.bindings.put(name, value);
+            this.bindings.put(name.value, value);
         }
     }
 
-    public SchemeObject lookUp(String name) {
-        SchemeObject obj = this.bindings.get(name);
+    public SchemeObject lookUp(Symbol name) {
+        SchemeObject obj = this.bindings.get(name.value);
         if(obj == null) {
             if(parent != null) {
                 obj = parent.lookUp(name);

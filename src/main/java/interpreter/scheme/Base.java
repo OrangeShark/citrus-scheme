@@ -110,18 +110,18 @@ public class Base extends Library {
 
 
     public void importLib(Environment env) {
-        env.define("+", new Plus());
-        env.define("-", new Minus());
-        env.define("*", new Times());
-        env.define("/", new Divide());
-        env.define("=", new Equality());
+        env.define(new Symbol("+"), new Plus());
+        env.define(new Symbol("-"), new Minus());
+        env.define(new Symbol("*"), new Times());
+        env.define(new Symbol("/"), new Divide());
+        env.define(new Symbol("="), new Equality());
 
         // Special forms
-        env.define("if", new Syntax(Syntax.Special.IF));
-        env.define("lambda", new Syntax(Syntax.Special.LAMBDA));
-        env.define("begin", new Syntax(Syntax.Special.BEGIN));
-        env.define("define", new Syntax(Syntax.Special.DEFINE));
-        env.define("quote", new Syntax(Syntax.Special.QUOTE));
-        env.define("set!", new Syntax(Syntax.Special.SET));
+        env.define(new Symbol("if"), new Syntax(Syntax.Special.IF));
+        env.define(new Symbol("lambda"), new Syntax(Syntax.Special.LAMBDA));
+        env.define(new Symbol("begin"), new Syntax(Syntax.Special.BEGIN));
+        env.define(new Symbol("define"), new Syntax(Syntax.Special.DEFINE));
+        env.define(new Symbol("quote"), new Syntax(Syntax.Special.QUOTE));
+        env.define(new Symbol("set!"), new Syntax(Syntax.Special.SET));
     }
 }

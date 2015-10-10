@@ -3,6 +3,7 @@ package interpreter;
 import interpreter.Environment;
 import interpreter.UnboundVariableException;
 import interpreter.type.TestObject;
+import interpreter.type.Symbol;
 
 import static org.junit.Assert.assertSame;
 
@@ -13,12 +14,13 @@ public class EnvironmentTest {
 
     private Environment testEnv;
     private TestObject obj;
-    private String key = "test";
+    private Symbol key;
 
     @Before
     public void setUp() {
         testEnv = new Environment();
         obj = new TestObject();
+        key = new Symbol("test");
         testEnv.define(key, obj);
     }
 
@@ -35,13 +37,13 @@ public class EnvironmentTest {
 
     @Test(expected= UnboundVariableException.class)
     public void lookUpWhenVariableNotBoundInEnvironmentShouldThrowUnboundVariableException() {
-        testEnv.lookUp("foo");
+        testEnv.lookUp(new Symbol("foo"));
     }
 
     @Test(expected= UnboundVariableException.class)
     public void lookUpWhenVariableNotBoundInEnvironmentAndParentEnvironmentShouldThrowUnboundVariableException() {
         Environment env = new Environment(testEnv, null, null);
-        testEnv.lookUp("foo");
+        testEnv.lookUp(new Symbol("foo"));
     }
 
     @Test
@@ -62,6 +64,6 @@ public class EnvironmentTest {
     @Test(expected= UnboundVariableException.class)
     public void setWhenVariableNotBoundInEnvironmentShouldThrowUnboundVariableException() {
         TestObject newObj = new TestObject();
-        testEnv.set("foo", newObj);
+        testEnv.set(new Symbol("foo"), newObj);
     }
 }

@@ -35,7 +35,7 @@ public class Interpreter {
 
     public SchemeObject eval(SchemeObject obj, Environment env) {
         if(obj instanceof Symbol) {
-            return env.lookUp(obj.toString());
+            return env.lookUp((Symbol)obj);
         } else if (obj instanceof Pair) {
             SchemeObject operator = eval(obj.car(), env);
             SchemeObject operands = obj.cdr();
@@ -71,7 +71,7 @@ public class Interpreter {
                         }
                         return result;
                     case DEFINE:
-                        env.define(operands.car().toString(),
+                        env.define(Symbol.of(operands.car()),
                                    eval(second(operands), env));
                         return unspecified;
                     case QUOTE:
@@ -81,7 +81,7 @@ public class Interpreter {
                     case SET:
                         if(length(operands) != 2)
                             throw new SyntaxErrorException("Does not match set! syntax");
-                        env.set(operands.car().toString(), eval(second(operands), env));
+                        env.set(Symbol.of(operands.car()), eval(second(operands), env));
                         return unspecified;
                     default:
                         return unspecified;
