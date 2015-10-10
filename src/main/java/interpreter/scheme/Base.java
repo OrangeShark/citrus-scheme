@@ -97,7 +97,7 @@ public class Base extends Library {
                 if(!(element instanceof Num)) {
                     throw new IllegalArgumentException("argument is not a Number");
                 }
-                if(num.isNull()) {
+                if(num == null) {
                     num = ((Num)element);
                 } else {
                     result = result && num.value == ((Num)element).value;
