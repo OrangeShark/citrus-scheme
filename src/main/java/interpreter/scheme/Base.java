@@ -109,6 +109,15 @@ public class Base extends Library {
         }
     }
 
+    public class Cons extends Primitive {
+        public SchemeObject apply(Interpreter interpreter, SchemeList args) {
+            if(length(args) != 2) {
+                throw new IllegalArgumentException("wrong number of arguments");
+            }
+            return new Pair(args.car(), second(args));
+        }
+    }
+
     public class Car extends Primitive {
         public SchemeObject apply(Interpreter interpreter, SchemeList args) {
             if(length(args) != 1) {
@@ -142,6 +151,7 @@ public class Base extends Library {
         env.define(new Symbol("*"), new Times());
         env.define(new Symbol("/"), new Divide());
         env.define(new Symbol("="), new Equality());
+        env.define(new Symbol("cons"), new Cons());
         env.define(new Symbol("car"), new Car());
         env.define(new Symbol("cdr"), new Cdr());
         env.define(new Symbol("null?"), new NullP());
