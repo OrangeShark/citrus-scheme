@@ -2,6 +2,7 @@ package interpreter.scheme;
 
 import interpreter.*;
 import interpreter.type.*;
+import static interpreter.util.List.*;
 
 import java.lang.IllegalArgumentException;
 
@@ -108,6 +109,32 @@ public class Base extends Library {
         }
     }
 
+    public class Car extends Primitive {
+        public SchemeObject apply(Interpreter interpreter, SchemeList args) {
+            if(length(args) != 1) {
+                throw new IllegalArgumentException("wrong number of arguments");
+            }
+            return args.car().car();
+        }
+    }
+
+    public class Cdr extends Primitive {
+        public SchemeObject apply(Interpreter interpreter, SchemeList args) {
+            if(length(args) != 1) {
+                throw new IllegalArgumentException("wrong number of arguments");
+            }
+            return args.car().cdr();
+        }
+    }
+
+    public class NullP extends Primitive {
+        public SchemeObject apply(Interpreter interpreter, SchemeList args) {
+            if(length(args) != 1) {
+                throw new IllegalArgumentException("wrong number of arguments");
+            }
+            return new Bool(args.car().isNull());
+        }
+    }
 
     public void importLib(Environment env) {
         env.define(new Symbol("+"), new Plus());
@@ -115,6 +142,9 @@ public class Base extends Library {
         env.define(new Symbol("*"), new Times());
         env.define(new Symbol("/"), new Divide());
         env.define(new Symbol("="), new Equality());
+        env.define(new Symbol("car"), new Car());
+        env.define(new Symbol("cdr"), new Cdr());
+        env.define(new Symbol("null?"), new NullP());
 
         // Special forms
         env.define(new Symbol("if"), new Syntax(Syntax.Special.IF));
