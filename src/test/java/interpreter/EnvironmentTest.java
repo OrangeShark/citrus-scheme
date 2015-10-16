@@ -4,6 +4,7 @@ import interpreter.Environment;
 import interpreter.UnboundVariableException;
 import interpreter.type.TestObject;
 import interpreter.type.Symbol;
+import interpreter.type.Null;
 
 import static org.junit.Assert.assertSame;
 
@@ -31,7 +32,7 @@ public class EnvironmentTest {
 
     @Test
     public void lookUpWhenVariableBoundInParentEnvironmentShouldReturnObject() {
-        Environment env = new Environment(testEnv, null, null);
+        Environment env = new Environment(testEnv, new Null(), new Null());
         assertSame(env.lookUp(key), obj);
     }
 
@@ -42,7 +43,7 @@ public class EnvironmentTest {
 
     @Test(expected= UnboundVariableException.class)
     public void lookUpWhenVariableNotBoundInEnvironmentAndParentEnvironmentShouldThrowUnboundVariableException() {
-        Environment env = new Environment(testEnv, null, null);
+        Environment env = new Environment(testEnv, new Null(), new Null());
         testEnv.lookUp(new Symbol("foo"));
     }
 
@@ -56,7 +57,7 @@ public class EnvironmentTest {
     @Test
     public void setWhenVariableBoundInParentEnvironmentShouldSetToNewObjectInParentEnvironment() {
         TestObject newObj = new TestObject();
-        Environment env = new Environment(testEnv, null, null);
+        Environment env = new Environment(testEnv, new Null(), new Null());
         env.set(key, newObj);
         assertSame(testEnv.lookUp(key), newObj);
     }
