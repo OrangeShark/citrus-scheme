@@ -3,6 +3,7 @@ package interpreter;
 import interpreter.type.SchemeObject;
 import interpreter.type.SchemeList;
 import interpreter.type.Symbol;
+import interpreter.type.Null;
 
 import java.util.Hashtable;
 
@@ -11,13 +12,13 @@ public class Environment {
     private Hashtable<String, SchemeObject> bindings;
 
     public Environment() {
-        this(null, null, null);
+        this(null, new Null(), new Null());
     }
 
     public Environment(Environment parent, SchemeList params, SchemeList args) {
         this.parent = parent;
         this.bindings = new Hashtable<String, SchemeObject>();
-        while(params != null) {
+        while(!params.isNull()) {
             Symbol symbol = Symbol.of(params.car());
             this.define(symbol, args.car());
             params = SchemeList.of(params.cdr());
