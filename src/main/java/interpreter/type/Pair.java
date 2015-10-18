@@ -30,6 +30,11 @@ public class Pair extends SchemeList {
         return this.tail;
     }
 
+    public boolean equals(Object obj) {
+        Pair p = (Pair)obj;
+        return this.head.equals(p.head)? this.tail.equals(p.tail) : false;
+    }
+
     public String toString() {
         String str = "(" + this.head.toString();
         if(this.tail instanceof SchemeList) {

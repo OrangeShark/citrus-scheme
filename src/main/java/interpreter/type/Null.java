@@ -7,6 +7,10 @@ public class Null extends SchemeList {
         return true;
     }
 
+    public boolean equals(Object obj) {
+        return obj instanceof Null? true : false;
+    }
+
     public String toString() {
         return "()";
     }
