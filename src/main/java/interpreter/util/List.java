@@ -6,6 +6,14 @@ import interpreter.type.Null;
 import interpreter.type.Pair;
 
 public class List {
+    public static SchemeList list(SchemeObject ... elements) {
+        SchemeList l = new Null();
+        for(int i = 0; i < elements.length; i++) {
+            l = new Pair(elements[i], l);
+        }
+        return reverse(l);
+    }
+
     public static SchemeObject second(SchemeObject list) {
         return list.cdr().car();
     }
