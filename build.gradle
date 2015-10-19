@@ -31,5 +31,5 @@ dependencies {
 }
 
 generateGrammarSource {
-    arguments += ["-visitor"]
+    arguments += ["-visitor", "-no-listener"]
 }
