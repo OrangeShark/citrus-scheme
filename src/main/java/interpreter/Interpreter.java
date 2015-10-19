@@ -3,7 +3,7 @@ package interpreter;
 import interpreter.type.*;
 import static interpreter.util.List.*;
 
-import java.io.InputStream;
+import java.io.Reader;
 import java.io.IOException;
 
 import org.antlr.v4.runtime.*;
@@ -22,8 +22,8 @@ public class Interpreter {
         unspecified = new Unspecified();
     }
 
-    public SchemeObject read(InputStream is) throws IOException {
-        ANTLRInputStream input = new ANTLRInputStream(is);
+    public SchemeObject read(String inputStr) throws IOException {
+        ANTLRInputStream input = new ANTLRInputStream(inputStr);
         SchemeLexer lexer = new SchemeLexer(input);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         SchemeParser parser = new SchemeParser(tokens);
