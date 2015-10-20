@@ -78,6 +78,19 @@ public class Interpreter {
                         } else {
                             return unspecified;
                         }
+                    case COND:
+                        obj = unspecified;
+                        while(!operands.isNull() && obj == unspecified) {
+                            SchemeObject clause = operands.car();
+                            SchemeObject test = clause.car();
+                            operands = operands.cdr();
+                            if(test instanceof Symbol && ((Symbol)test).value.equals("else")
+                               || Bool.isTruthy(eval(test, env))) {
+                                obj = clause.cdr();
+                            }
+                        }
+                        return eval(list(new Syntax(Syntax.Special.BEGIN),
+                                         obj), env);
                     case BEGIN:
                         SchemeObject result = unspecified;
                         while(!operands.isNull()) {

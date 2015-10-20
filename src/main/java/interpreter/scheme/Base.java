@@ -173,6 +173,7 @@ public class Base extends Library {
 
         // Special forms
         env.define(new Symbol("if"), new Syntax(Syntax.Special.IF));
+        env.define(new Symbol("cond"), new Syntax(Syntax.Special.COND));
         env.define(new Symbol("lambda"), new Syntax(Syntax.Special.LAMBDA));
         env.define(new Symbol("begin"), new Syntax(Syntax.Special.BEGIN));
         env.define(new Symbol("define"), new Syntax(Syntax.Special.DEFINE));
