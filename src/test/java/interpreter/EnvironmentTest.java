@@ -80,6 +80,6 @@ public class EnvironmentTest {
     @Test(expected= UnboundVariableException.class)
     public void setWhenVariableNotBoundInEnvironmentShouldThrowUnboundVariableException() {
         TestObject newObj = new TestObject();
-        testEnv.set(newObj, new Symbol("foo"));
+        testEnv.set(new Symbol("foo"), newObj);
     }
 }
