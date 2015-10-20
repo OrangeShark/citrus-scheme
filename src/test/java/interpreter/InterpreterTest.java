@@ -62,7 +62,7 @@ public class InterpreterTest {
         TestObject obj = new TestObject();
         Pair args = new Pair(new TestObject());
         Pair exp = new Pair(op, args);
-        when(op.apply(interpreter, args)).thenReturn(obj);
+        when(op.apply(args)).thenReturn(obj);
         assertSame(interpreter.eval(exp, env), obj);
     }
 

@@ -49,18 +49,24 @@ public class Interpreter {
     }
 
     public SchemeObject eval(SchemeObject obj, Environment env) {
-        if(obj instanceof Symbol) {
-            return env.lookUp((Symbol)obj);
-        } else if (obj instanceof Pair) {
-            SchemeObject operator = eval(obj.car(), env);
-            SchemeObject operands = obj.cdr();
-            if(operator instanceof Applicable) {
-                Applicable op = (Applicable) operator;
-                SchemeList args  = evalList(operands, env);
-                return op.apply(this, args);
-            } else if(operator instanceof Syntax) {
-                Syntax op = (Syntax) operator;
-                switch(op.value) {
+        while(true) {
+            if(obj instanceof Symbol) {
+                return env.lookUp((Symbol)obj);
+            } else if (obj instanceof Pair) {
+                SchemeObject operator = eval(obj.car(), env);
+                SchemeObject operands = obj.cdr();
+                if(operator instanceof Applicable) {
+                    Applicable op = (Applicable) operator;
+                    SchemeList args  = evalList(operands, env);
+                    obj = op.apply(args);
+                    if(op instanceof Primitive) {
+                        return obj;
+                    }
+                    env = (Environment)obj.cdr();
+                    obj = obj.car();
+                } else if(operator instanceof Syntax) {
+                    Syntax op = (Syntax) operator;
+                    switch(op.value) {
                     case LAMBDA:
                         return new Closure(env,
                                            SchemeList.of(operands.car()),
@@ -72,12 +78,13 @@ public class Interpreter {
                         }
                         SchemeObject predicate = eval(operands.car(), env);
                         if(Bool.isTruthy(predicate)) {
-                            return eval(second(operands), env);
+                            obj = second(operands);
                         } else if(count == 3){
-                            return eval(third(operands), env);
+                            obj = third(operands);
                         } else {
                             return unspecified;
                         }
+                        break;
                     case COND:
                         obj = unspecified;
                         while(!operands.isNull() && obj == unspecified) {
@@ -89,15 +96,18 @@ public class Interpreter {
                                 obj = clause.cdr();
                             }
                         }
-                        return eval(list(new Syntax(Syntax.Special.BEGIN),
-                                         obj), env);
+                        obj = list(new Syntax(Syntax.Special.BEGIN), obj);
+                        break;
                     case BEGIN:
-                        SchemeObject result = unspecified;
-                        while(!operands.isNull()) {
-                            result = eval(operands.car(), env);
+                        if(operands.isNull()) {
+                            return unspecified;
+                        }
+                        while(!operands.cdr().isNull()) {
+                            eval(operands.car(), env);
                             operands = operands.cdr();
                         }
-                        return result;
+                        obj = operands.car();
+                        break;
                     case DEFINE:
                         SchemeObject variable = operands.car();
                         if(variable instanceof Pair) {
@@ -124,13 +134,14 @@ public class Interpreter {
                         return unspecified;
                     default:
                         return unspecified;
+                    }
+                } else {
+                    // unknown
+                    return null;
                 }
             } else {
-                // unknown
-                return null;
+                return obj;
             }
-        } else {
-            return obj;
         }
     }
 

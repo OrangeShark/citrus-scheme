@@ -29,8 +29,8 @@ public class Closure extends SchemeObject implements Applicable {
         this.body = new Pair(new Syntax(Syntax.Special.BEGIN), body);
     }
 
-    public SchemeObject apply(Interpreter interpreter, SchemeList args) {
+    public SchemeObject apply(SchemeList args) {
         Environment newEnv = new Environment(env, params, args);
-        return interpreter.eval(body, newEnv);
+        return new Pair(body, newEnv);
     }
 }

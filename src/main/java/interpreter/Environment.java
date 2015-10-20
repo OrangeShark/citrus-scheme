@@ -22,7 +22,7 @@ import interpreter.type.Null;
 
 import java.util.Hashtable;
 
-public class Environment {
+public class Environment extends SchemeObject {
     private Environment parent;
     private Hashtable<String, SchemeObject> bindings;
 

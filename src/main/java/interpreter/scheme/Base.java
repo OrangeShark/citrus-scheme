@@ -23,7 +23,7 @@ import java.lang.IllegalArgumentException;
 
 public class Base extends Library {
     public class Plus extends Primitive {
-        public SchemeObject apply(Interpreter interpreter, SchemeList args) {
+        public SchemeObject apply(SchemeList args) {
             double total = 0.0;
             while(!args.isNull()) {
                 SchemeObject element = args.car();
@@ -39,7 +39,7 @@ public class Base extends Library {
     }
 
     public class Minus extends Primitive {
-        public SchemeObject apply(Interpreter interpreter, SchemeList args) {
+        public SchemeObject apply(SchemeList args) {
             if(args.isNull()) {
                 throw new IllegalArgumentException("not enough arguments");
             }
@@ -64,7 +64,7 @@ public class Base extends Library {
     }
 
     public class Times extends Primitive {
-        public SchemeObject apply(Interpreter interpreter, SchemeList args) {
+        public SchemeObject apply(SchemeList args) {
             double total = 1.0;
             while(!args.isNull()) {
                 SchemeObject element = args.car();
@@ -80,7 +80,7 @@ public class Base extends Library {
     }
 
     public class Divide extends Primitive {
-        public SchemeObject apply(Interpreter interpreter, SchemeList args) {
+        public SchemeObject apply(SchemeList args) {
             if(args.isNull()) {
                 throw new IllegalArgumentException("not enough arguments");
             }
@@ -105,7 +105,7 @@ public class Base extends Library {
     }
 
     public class Equality extends Primitive {
-        public SchemeObject apply(Interpreter interpreter, SchemeList args) {
+        public SchemeObject apply(SchemeList args) {
             boolean result = true;
             Num num = null;
             while(!args.isNull()) {
@@ -125,7 +125,7 @@ public class Base extends Library {
     }
 
     public class Cons extends Primitive {
-        public SchemeObject apply(Interpreter interpreter, SchemeList args) {
+        public SchemeObject apply(SchemeList args) {
             if(length(args) != 2) {
                 throw new IllegalArgumentException("wrong number of arguments");
             }
@@ -134,7 +134,7 @@ public class Base extends Library {
     }
 
     public class Car extends Primitive {
-        public SchemeObject apply(Interpreter interpreter, SchemeList args) {
+        public SchemeObject apply(SchemeList args) {
             if(length(args) != 1) {
                 throw new IllegalArgumentException("wrong number of arguments");
             }
@@ -143,7 +143,7 @@ public class Base extends Library {
     }
 
     public class Cdr extends Primitive {
-        public SchemeObject apply(Interpreter interpreter, SchemeList args) {
+        public SchemeObject apply(SchemeList args) {
             if(length(args) != 1) {
                 throw new IllegalArgumentException("wrong number of arguments");
             }
@@ -152,7 +152,7 @@ public class Base extends Library {
     }
 
     public class NullP extends Primitive {
-        public SchemeObject apply(Interpreter interpreter, SchemeList args) {
+        public SchemeObject apply(SchemeList args) {
             if(length(args) != 1) {
                 throw new IllegalArgumentException("wrong number of arguments");
             }
