@@ -26,7 +26,7 @@ public class Syntax extends SchemeObject {
         QUOTE
     }
 
-    public Special value;
+    public final Special value;
 
     public Syntax(Special special) {
         this.value = special;

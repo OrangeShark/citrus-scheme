@@ -18,7 +18,7 @@ package interpreter.type;
 import java.lang.RuntimeException;
 
 public class Symbol extends SchemeObject {
-    public String value;
+    public final String value;
 
     public Symbol(String x) {
         this.value = x;

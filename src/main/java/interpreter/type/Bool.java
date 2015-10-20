@@ -16,7 +16,7 @@
 package interpreter.type;
 
 public class Bool extends SchemeObject {
-    public boolean value;
+    public final boolean value;
 
     public Bool(boolean b) {
         this.value = b;
