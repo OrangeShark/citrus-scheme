@@ -46,13 +46,13 @@ public class InterpreterTest {
         Symbol sym = new Symbol("test");
         TestObject obj = new TestObject();
         when(env.lookUp(sym)).thenReturn(obj);
-        assertSame(interpreter.eval(sym, env), obj);
+        assertSame(obj, interpreter.eval(sym, env));
     }
 
     @Test
     public void evalWhenNotGivenPairOrSymbolObjectThenReturnsObject() {
         TestObject obj = new TestObject();
-        assertSame(interpreter.eval(obj, env), obj);
+        assertSame(obj, interpreter.eval(obj, env));
     }
 
     @Test
@@ -66,18 +66,26 @@ public class InterpreterTest {
     }
 
     @Test
-    public void evalWhenGivenPairWithIfSpecialFormAndTrueExpressionThenReturnsSecondOperand() {
+    public void evalWhenGivenPairWithIfSpecialFormAndTrueExpressionThenReturnsSecondExpression() {
         Syntax form = new Syntax(Syntax.Special.IF);
         SchemeList operands = list(new Bool(true), new TestObject());
         SchemeList exp = new Pair(form, operands);
-        assertSame(interpreter.eval(exp, env), second(operands));
+        assertSame(second(operands), interpreter.eval(exp, env));
     }
 
     @Test
-    public void evalWHenGivenPairWithIfSpecialFormAndFalseExpressionWithNoElseReturnsUnspecified() {
+    public void evalWhenGivenPairWithIfSpecialFormAndFalseExpressionWithNoElseReturnsUnspecified() {
         Syntax form = new Syntax(Syntax.Special.IF);
         SchemeList operands = list(new Bool(false), new TestObject());
         SchemeList exp = new Pair(form, operands);
-        assertEquals(interpreter.eval(exp, env), new Unspecified());
+        assertEquals(new Unspecified(), interpreter.eval(exp, env));
+    }
+
+    @Test
+    public void evalWhenGivenPairWithIfSpecialFormAndFalseExpressionWithElseReturnsThirdExpression() {
+        Syntax form = new Syntax(Syntax.Special.IF);
+        SchemeList operands = list(new Bool(false), new TestObject(), new TestObject());
+        SchemeList exp = new Pair(form, operands);
+        assertSame(third(operands), interpreter.eval(exp, env));
     }
 }

@@ -26,13 +26,13 @@ public class PairTest {
     public void carWhenPairShouldHaveSameObject() {
         TestObject obj = new TestObject();
         Pair pair = new Pair(obj);
-        assertSame(pair.car(), obj);
+        assertSame(obj, pair.car());
     }
 
     @Test
     public void cdrWhenPairShouldHaveSameObject() {
         TestObject obj = new TestObject();
         Pair pair = new Pair(new TestObject(), obj);
-        assertSame(pair.cdr(), obj);
+        assertSame(obj, pair.cdr());
     }
 }

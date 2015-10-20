@@ -42,13 +42,13 @@ public class EnvironmentTest {
 
     @Test
     public void lookUpWhenVariableBoundShouldReturnObject() {
-        assertSame(testEnv.lookUp(key), obj);
+        assertSame(obj, testEnv.lookUp(key));
     }
 
     @Test
     public void lookUpWhenVariableBoundInParentEnvironmentShouldReturnObject() {
         Environment env = new Environment(testEnv, new Null(), new Null());
-        assertSame(env.lookUp(key), obj);
+        assertSame(obj, env.lookUp(key));
     }
 
     @Test(expected= UnboundVariableException.class)
@@ -66,7 +66,7 @@ public class EnvironmentTest {
     public void setWhenVariableBoundInEnvironmentShouldSetToNewObject() {
         TestObject newObj = new TestObject();
         testEnv.set(key, newObj);
-        assertSame(testEnv.lookUp(key), newObj);
+        assertSame(newObj, testEnv.lookUp(key));
     }
 
     @Test
@@ -74,12 +74,12 @@ public class EnvironmentTest {
         TestObject newObj = new TestObject();
         Environment env = new Environment(testEnv, new Null(), new Null());
         env.set(key, newObj);
-        assertSame(testEnv.lookUp(key), newObj);
+        assertSame(newObj, testEnv.lookUp(key));
     }
 
     @Test(expected= UnboundVariableException.class)
     public void setWhenVariableNotBoundInEnvironmentShouldThrowUnboundVariableException() {
         TestObject newObj = new TestObject();
-        testEnv.set(new Symbol("foo"), newObj);
+        testEnv.set(newObj, new Symbol("foo"));
     }
 }
