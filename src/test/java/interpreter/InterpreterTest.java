@@ -17,6 +17,7 @@ package interpreter;
 
 import interpreter.Interpreter;
 import interpreter.Environment;
+import interpreter.SyntaxErrorException;
 import interpreter.type.*;
 import interpreter.type.TestObject;
 
@@ -87,5 +88,43 @@ public class InterpreterTest {
         SchemeList operands = list(new Bool(false), new TestObject(), new TestObject());
         SchemeList exp = new Pair(form, operands);
         assertSame(third(operands), interpreter.eval(exp, env));
+    }
+
+    @Test
+    public void evalWhenLastAndOnlyExpressionInBeginSpecialFormReturnsExpression() {
+        Syntax form = new Syntax(Syntax.Special.BEGIN);
+        SchemeList exp = list(form, new TestObject());
+        assertSame(second(exp), interpreter.eval(exp, env));
+    }
+
+    @Test
+    public void evalWhenLastExpressionInBeginSpecialFormReturnsExpression() {
+        Syntax form = new Syntax(Syntax.Special.BEGIN);
+        SchemeList exp = list(form, new TestObject(), new TestObject());
+        assertSame(third(exp), interpreter.eval(exp, env));
+    }
+
+    @Test
+    public void evalWhenExpressionWithDefineSpecialFormThenCallsDefineOnEnv() {
+        Syntax form = new Syntax(Syntax.Special.DEFINE);
+        Symbol symbol = new Symbol("Test");
+        TestObject obj = new TestObject();
+        SchemeList exp = list(form, symbol, obj);
+        assertEquals(new Unspecified(), interpreter.eval(exp, env));
+        verify(env).define(symbol, obj);
+    }
+
+    @Test(expected= SyntaxErrorException.class)
+    public void evalWhenMoreThanOneExpressionWithDefineSpecialFormThenError() {
+        Syntax form = new Syntax(Syntax.Special.DEFINE);
+        SchemeList exp = list(form, new Symbol("Test"), new TestObject(), new TestObject());
+        interpreter.eval(exp, env);
+    }
+
+    @Test
+    public void evalWhenGivenFunctionWithDefineSpecialFormThenDefineOnEnvALambda() {
+        Syntax form = new Syntax(Syntax.Special.DEFINE);
+        SchemeList exp = list(form, list(new Symbol("Test")), new TestObject());
+        assertEquals(new Unspecified(), interpreter.eval(exp, env));
     }
 }

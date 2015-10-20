@@ -86,8 +86,19 @@ public class Interpreter {
                         }
                         return result;
                     case DEFINE:
-                        env.define(Symbol.of(operands.car()),
-                                   eval(second(operands), env));
+                        SchemeObject variable = operands.car();
+                        if(variable instanceof Pair) {
+                            obj = eval(new Pair(new Syntax(Syntax.Special.LAMBDA),
+                                                new Pair(variable.cdr(),
+                                                         operands.cdr())),
+                                       env);
+                            variable = variable.car();
+                        } else {
+                            if(length(operands) != 2)
+                                throw new SyntaxErrorException("Does not match define syntax");
+                            obj = eval(second(operands), env);
+                        }
+                        env.define(Symbol.of(variable), obj);
                         return unspecified;
                     case QUOTE:
                         if(length(operands) != 1)
