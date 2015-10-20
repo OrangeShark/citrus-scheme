@@ -44,17 +44,17 @@ public class SchemeReadVisitor extends SchemeBaseVisitor<SchemeObject>
         final String text = ctx.CHARACTER().getText().substring(2);
         switch(text) {
         case "alarm":
-            return null;
+            return new Char('\u0007');
         case "backspace":
-            return null;
+            return new Char('\u0008');
         case "delete":
-            return null;
+            return new Char('\u007F');
         case "escape":
-            return null;
+            return new Char('\u001B');
         case "newline":
             return new Char('\n');
         case "null":
-            return new Char('\0');
+            return new Char('\u0000');
         case "return":
             return new Char('\r');
         case "space":

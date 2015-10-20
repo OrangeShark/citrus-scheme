@@ -21,4 +21,39 @@ public class Char extends SchemeObject {
     public Char(char c) {
         this.value = c;
     }
+
+    public String toString() {
+        String str = "";
+        switch(value) {
+            case '\u0007':
+                str = "alarm";
+                break;
+            case '\u0008':
+                str = "backspace";
+                break;
+            case '\u007F':
+                str = "delete";
+                break;
+            case '\u001B':
+                str = "escape";
+                break;
+            case '\n':
+                str = "newline";
+                break;
+            case '\0':
+                str = "null";
+                break;
+            case '\r':
+                str = "return";
+                break;
+            case ' ':
+                str = "space";
+                break;
+            case '\t':
+                str = "tab";
+            default:
+                str = String.valueOf(value);
+        }
+        return "#\\" + str;
+    }
 }

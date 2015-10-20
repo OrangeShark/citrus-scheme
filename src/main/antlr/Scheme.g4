@@ -135,7 +135,7 @@ FALSE : '#f'
       | '#false'
       ;
 
-CHARACTER : '#\\' | '#\\' CHARACTER_NAME | '#\\x' HEX_SCALAR_VALUE;
+CHARACTER : '#\\' . | '#\\' CHARACTER_NAME | '#\\x' HEX_SCALAR_VALUE;
 fragment
 CHARACTER_NAME : 'alarm' | 'backspace' | 'delete' | 'escape'
                | 'newline' | 'null' | 'return' | 'space' | 'tab';
