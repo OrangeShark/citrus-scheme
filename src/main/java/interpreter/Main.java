@@ -44,12 +44,17 @@ public class Main {
         Library lib = new Base();
         SchemeInputReader reader = new SchemeInputReader(System.in);
         lib.importLib(env);
+        int resultCount = 1;
         while(true) {
             System.out.print("> ");
             String input = readInput(reader);
             SchemeObject obj = interpreter.read(input);
             SchemeObject result = interpreter.eval(obj, env);
-            System.out.println(result);
+            if(!(result instanceof Unspecified)) {
+                env.define(new Symbol("$" + resultCount), result);
+                System.out.println("$" + resultCount + " = " + result);
+                resultCount++;
+            }
             reader.reset();
         }
     }
