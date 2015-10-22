@@ -15,7 +15,7 @@
  */
 package citrus;
 
-import citrus.Citrus;
+import citrus.Interpreter;
 import citrus.Environment;
 import citrus.SyntaxErrorException;
 import citrus.type.*;
