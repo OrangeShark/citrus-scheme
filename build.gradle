@@ -18,7 +18,8 @@ apply plugin: 'java'
 apply plugin: 'antlr'
 apply plugin: 'application'
 
-mainClassName = 'interpreter.Main'
+mainClassName = 'citrus.Main'
+version = '0.1'
 
 repositories {
     mavenCentral()
