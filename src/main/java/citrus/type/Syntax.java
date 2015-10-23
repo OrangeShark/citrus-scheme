@@ -31,4 +31,8 @@ public class Syntax extends SchemeObject {
     public Syntax(Special special) {
         this.value = special;
     }
+
+    public String toString() {
+        return this.value.toString();
+    }
 }

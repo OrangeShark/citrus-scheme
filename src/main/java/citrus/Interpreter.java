@@ -96,7 +96,10 @@ public class Interpreter {
                                 obj = clause.cdr();
                             }
                         }
-                        obj = list(new Syntax(Syntax.Special.BEGIN), obj);
+
+                        if(obj == unspecified)
+                            return unspecified;
+                        obj = new Pair(new Syntax(Syntax.Special.BEGIN), obj);
                         break;
                     case BEGIN:
                         if(operands.isNull()) {

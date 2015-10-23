@@ -91,6 +91,31 @@ public class InterpreterTest {
     }
 
     @Test
+    public void evalWhenGivenPairWithCondSpecialFormAndTrueClauseThenReturnsClauseExpression() {
+        Syntax form = new Syntax(Syntax.Special.COND);
+        SchemeList clause = list(new Bool(true), new TestObject());
+        SchemeList exp = list(form, clause);
+        assertSame(second(clause), interpreter.eval(exp, env));
+    }
+
+    @Test
+    public void evalWhenGivenPairWithCondSpecialFormAndFalseClauseThenReturnsUnspecified() {
+        Syntax form = new Syntax(Syntax.Special.COND);
+        SchemeList clause = list(new Bool(false), new TestObject());
+        SchemeList exp = list(form, clause);
+        assertEquals(new Unspecified(), interpreter.eval(exp, env));
+    }
+
+    @Test
+    public void evalWhenGivenExpWithCondSpecialFormAndAnElseClauseThenReturnsElseExpression() {
+        Syntax form = new Syntax(Syntax.Special.COND);
+        SchemeList clause = list(new Bool(false), new TestObject());
+        SchemeList elseClause = list(new Symbol("else"), new TestObject());
+        SchemeList exp = list(form, clause, elseClause);
+        assertSame(second(elseClause), interpreter.eval(exp, env));
+    }
+
+    @Test
     public void evalWhenLastAndOnlyExpressionInBeginSpecialFormReturnsExpression() {
         Syntax form = new Syntax(Syntax.Special.BEGIN);
         SchemeList exp = list(form, new TestObject());
@@ -126,5 +151,36 @@ public class InterpreterTest {
         Syntax form = new Syntax(Syntax.Special.DEFINE);
         SchemeList exp = list(form, list(new Symbol("Test")), new TestObject());
         assertEquals(new Unspecified(), interpreter.eval(exp, env));
+        verify(env).define(eq((Symbol)second(exp).car()), any(Closure.class));
+    }
+
+    @Test(expected= SyntaxErrorException.class)
+    public void evalWhenGivenMoreThanOneExpressionWithQuoteSpecialFormThenSyntaxError() {
+        Syntax form = new Syntax(Syntax.Special.QUOTE);
+        SchemeList exp = list(form, new TestObject(), new TestObject());
+        interpreter.eval(exp, env);
+    }
+
+    @Test
+    public void evalWhenGivenSymbolInQuoteSpecialFormThenReturnsSymbolAndNotLookUpSymbolInEnv() {
+        Syntax form = new Syntax(Syntax.Special.QUOTE);
+        SchemeList exp = list(form, new Symbol("Test"));
+        assertSame(second(exp), interpreter.eval(exp, env));
+        verify(env, never()).lookUp((Symbol)second(exp));
+    }
+
+    @Test(expected= SyntaxErrorException.class)
+    public void evalWhenGivenMoreThanTwoOperandsWithSetSpecialFormThenSyntaxError() {
+        Syntax form = new Syntax(Syntax.Special.SET);
+        SchemeList exp = list(form, new Symbol("Test"), new TestObject(), new TestObject());
+        interpreter.eval(exp, env);
+    }
+
+    @Test
+    public void evalWhenGivenSymbolAndExpressionThenCallsSetOnEnv() {
+        Syntax form = new Syntax(Syntax.Special.SET);
+        SchemeList exp = list(form, new Symbol("Test"), new TestObject());
+        assertEquals(new Unspecified(), interpreter.eval(exp, env));
+        verify(env).set((Symbol)second(exp), third(exp));
     }
 }
