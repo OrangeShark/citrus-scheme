@@ -32,4 +32,11 @@ public class Bool extends SchemeObject {
         }
         return true;
     }
+
+    public boolean equals(Object obj) {
+        if(obj instanceof Bool) {
+            return this.value == ((Bool)obj).value;
+        }
+        return false;
+    }
 }

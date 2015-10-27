@@ -16,7 +16,7 @@
 package citrus.type;
 
 public class Char extends SchemeObject {
-    private final char value;
+    public final char value;
 
     public Char(char c) {
         this.value = c;
