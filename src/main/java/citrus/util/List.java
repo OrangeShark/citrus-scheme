@@ -29,6 +29,10 @@ public class List {
         return reverse(l);
     }
 
+    public static SchemeObject first(SchemeObject list) {
+        return list.car();
+    }
+
     public static SchemeObject second(SchemeObject list) {
         return list.cdr().car();
     }
