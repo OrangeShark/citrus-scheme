@@ -25,6 +25,7 @@ import static citrus.util.List.*;
 
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -64,6 +65,13 @@ public class InterpreterTest {
         Pair exp = new Pair(op, args);
         when(op.apply(args)).thenReturn(obj);
         assertSame(interpreter.eval(exp, env), obj);
+    }
+
+    @Test
+    public void evalWhenGivenALambdaExpressionReturnsClosure() {
+        Syntax form = new Syntax(Syntax.Special.LAMBDA);
+        SchemeList exp = list(form, list(), new TestObject());
+        assertTrue(interpreter.eval(exp, env) instanceof Closure);
     }
 
     @Test
